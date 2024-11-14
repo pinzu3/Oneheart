@@ -1,0 +1,66 @@
+﻿@model LinkedList<WebApplication1.Models.News2>
+
+@{
+    ViewBag.Title = "最新消息通知";
+}
+
+<h2><strong>最新消息通知</strong></h2>
+
+<!-- 顯示最新消息資料 -->
+<div id="X">
+    <table style="width: 100%; border-collapse: collapse; text-align: center;">
+        <tr style="background-color: #f2f2f2; font-weight: bold;">
+            <th>最新消息編號</th>
+            <th>最新消息項目</th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.Topic</td>
+            </tr>
+        }
+    </table>
+</div>
+
+<!-- 在頁面內加上 CSS 樣式 -->
+<style>
+    /* 設定背景圖片或顏色 */
+    #X {
+        background-image: url('https://example.com/path-to-your-background-image.jpg'); /* 可替換為您選擇的背景圖片 */
+        background-size: cover;
+        background-position: center;
+        padding: 20px;
+        border-radius: 10px;
+    }
+
+    table {
+        width: 100%;
+        margin-top: 20px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    th, td {
+        padding: 10px;
+        border: 1px solid #ddd;
+    }
+
+    th {
+        background-color: #4CAF50; /* 綠色背景 */
+        color: white;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    tr:hover {
+        background-color: #f1f1f1;
+    }
+
+    img {
+        border-radius: 5px;
+    }
+</style>

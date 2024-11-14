@@ -1,0 +1,102 @@
+﻿@model IEnumerable<WebApplication1.Models.News1>
+<h2>衛教專欄管理</h2>
+
+<script>
+    function AddItem() {
+        let id = $("#AddId").val();
+        let topic = $("#AddTopic").val();
+        $.ajax({
+            type: 'GET',
+            dataType: "text",
+            data: { News1Id: id, News1Topic: topic },
+            url: '/Home/AddNews1',
+            contentType: "application/json; charset=utf-8",
+            async: true,
+            success: function (Result) {
+                alert(Result);
+            },
+            error: function () {
+                alert("前端未送出資料");
+            }
+        });
+    }
+    function DeleteItem() {
+        let id = $("#DeleteId").val();
+        $.ajax({
+            
+                type: 'GET',
+            dataType: "text",
+            data: {News1Id:id},
+                url: '/Home/DeleteNews1',
+                contentType: "application/json; charset=utf-8",
+            async: true,
+            success: function (Result) {
+                alert(Result);
+            },
+            error: function () {
+                alert("前端未送出資料");
+                    }
+                });
+            }
+        
+
+    function DeletedData() {
+        // 顯示刪除區域，隱藏其他區域
+        $("#X").css("display", "none");
+        $("#X2").css("display", "none");
+        $("#X3").css("display", "block");
+    }
+
+    function AddData() {
+        // 顯示新增區域，隱藏其他區域
+        $("#X").css("display", "none");
+        $("#X2").css("display", "block");
+        $("#X3").css("display", "none");
+    }
+
+    function ShowData() {
+        // 顯示數據列表區域，隱藏其他區域
+        location.reload();
+    }
+</script>
+
+<!-- 按鈕區域 -->
+<button class="btn btn-primary" onclick="ShowData()">列出衛教專欄細項</button>
+<button class="btn btn-warning" onclick="AddData()">新增專欄細項</button>
+<button class="btn btn-danger" onclick="DeletedData()">刪除衛教細項</button>
+
+<!-- 刪除區域 -->
+<div id="X3" style="display:none">
+    <br />
+    <span>衛教編號: </span><input type="text" id="DeleteId" />
+    <button onclick="DeleteItem()">確定刪除</button>
+    <!-- 可以在這裡放置刪除操作的表單或提示 -->
+</div>
+
+<!-- 新增區域 -->
+<div id="X2">
+    <br />
+    <span>衛教編號: </span>
+    <input type="text" id="AddId" /><br/>
+    <span>衛教內容:</span>
+    <input type="text" id="AddTopic"/>
+    <button onclick="AddItem()">確定新增</button>
+    <!-- 這裡是新增操作區域，可以放置輸入框等 -->
+</div>
+
+<!-- 顯示數據的區域 -->
+<div id="X">
+    <table>
+        <tr>
+            <th>編號</th>
+            <th>細項</th>
+        </tr>
+        @foreach(var X in Model)
+        {
+            <tr>
+                <td>@X.Id</td>
+                <td>@X.Topic</td>
+            </tr>
+        }
+    </table>
+</div>

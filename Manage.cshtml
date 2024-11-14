@@ -1,0 +1,58 @@
+﻿@model IEnumerable<WebApplication1.Models.Job>
+<br /><br /><br />
+<h5>@TempData["Msg"]</h5>
+
+<h5>管理頁面</h5>
+
+<!-- 漢堡菜單 -->
+<div class="hamburger-menu" onclick="toggleMenu()">
+    &#9776; <!-- 漢堡圖示 -->
+</div>
+
+<div id="menu" class="menu" style="display:none;">
+    <ul>
+        <li><a href="@Url.Action("OutOfStockOrders", "Home")">缺貨藥物管理</a></li>
+        <li><a href="@Url.Action("Customer", "Home")">查詢會員資料管理</a></li>
+        <li><a href="@Url.Action("QueryReservations", "Home")">會員預約訂單管理</a></li>
+        
+
+    </ul>
+</div>
+
+<style>
+    .hamburger-menu {
+        cursor: pointer;
+        font-size: 30px;
+        margin-bottom: 10px;
+    }
+
+    .menu {
+        border: 1px solid #ccc;
+        background-color: #f9f9f9;
+        padding: 10px;
+        position: absolute;
+        z-index: 1000;
+    }
+
+        .menu ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .menu li {
+            margin: 5px 0;
+        }
+</style>
+
+<script>
+    function toggleMenu() {
+        var menu = document.getElementById("menu");
+        if (menu.style.display === "none") {
+            menu.style.display = "block";
+        } else {
+            menu.style.display = "none";
+        }
+    }
+</script>
+
+

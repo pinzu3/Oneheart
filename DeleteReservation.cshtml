@@ -1,0 +1,47 @@
+﻿@{
+    ViewBag.Title = "刪除預約";
+}
+
+<h2>刪除預約</h2>
+<h5>@TempData["Msg"]</h5>
+
+<form action="/Home/QueryReservations" method="get">
+    電話: <input name="phonenumber" type="text" />
+    <br />
+    身分證字號: <input name="card" type="text" />
+    <br />
+    <input type="submit" value="查詢" />
+</form>
+
+@if (ViewBag.Reservations != null && ViewBag.Reservations.Count > 0)
+{
+    <h4>查詢結果:</h4>
+    <table>
+        <tr>
+            <th>電話</th>
+            <th>號碼</th>
+            <th>時間</th>
+            <th>圖片路徑</th>
+            <th>操作</th> <!-- 新增操作列 -->
+        </tr>
+        @foreach (var reservation in ViewBag.Reservations)
+        {
+            <tr>
+                <td>@reservation.Phonenumber</td>
+                <td>@reservation.Card</td>
+                <td>@reservation.Time.ToString("yyyy/MM/dd HH:mm")</td>
+                <td>@reservation.ImagePath</td>
+                <td>
+                    <form action="/Home/DeleteReservation" method="post" style="display:inline;">
+                        <input type="hidden" name="Id" value="@reservation.Id" /> <!-- 假設有一個 Id 字段 -->
+                        <input type="submit" value="刪除" onclick="return confirm('確定要刪除這個預約嗎？');" />
+                    </form>
+                </td>
+            </tr>
+        }
+    </table>
+}
+else
+{
+    <p>沒有找到相關預約。</p>
+}

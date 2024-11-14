@@ -1,0 +1,27 @@
+﻿@model LinkedList<WebApplication1.Models.News>
+
+@{
+    ViewBag.Title = "最新消息通知";
+}
+
+<h2><strong>最新消息通知</strong></h2>
+
+<!-- 顯示藥品資料 -->
+<div id="X">
+    <table>
+        <tr>
+            <th>編號</th>
+            <th>消息</th>
+            
+        </tr>
+        @foreach (var item in Model)  // 迭代顯示藥品資料
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.Topic</td>
+                
+                  
+            </tr>
+        }
+    </table>
+</div>

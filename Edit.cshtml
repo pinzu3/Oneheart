@@ -1,0 +1,178 @@
+﻿<div id="VuePage">
+    <!-- 修改個人資料表單 -->
+    <div class="panel panel-primary">
+        <div class="panel-heading">修改個人資料</div>
+        <div class="panel-body">
+            <div class="form-group">
+                <label>帳號</label>
+                <p class="form-control-static">{{ form.UserID }}</p>
+            </div>
+            <div class="form-group">
+                <label>姓名</label>
+                <input type="text" class="form-control" v-model="form.UserName" required>
+            </div>
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email"
+                       class="form-control"
+                       v-model="form.UserEmail"
+                       required
+                       placeholder="example@domain.com"
+                       pattern="[a-z0-9._%+-]+[a-z0-9.-]+\.[a-z]{2,}$">
+                <small class="text-muted">請輸入有效的電子郵件地址</small>
+            </div>
+            <div class="form-group">
+                <label>電話</label>
+                <input type="text"
+                       class="form-control"
+                       v-model="form.UserPhone"
+                       required
+                       placeholder="0912345678"
+                       pattern="(09[0-9]{8})|(0[0-9]{1,2}[0-9]{7,8})">
+                <small class="text-muted">例如 0912345678 | 081234567)</small>
+            </div>
+            <div class="form-group">
+                <label for="allergyTextarea">過敏藥物</label>
+                <textarea id="allergyTextarea"
+                          class="form-control"
+                          v-model="form.UserAllergens"
+                          placeholder="請輸入您會過敏的藥物名稱，沒有的話請輸入無"
+                          rows="4"></textarea>
+            </div>
+        </div>
+        <div class="panel-footer">
+            <button type="button" class="btn btn-primary" v-on:click="DoEditProfile()">修改個人資料</button>
+        </div>
+    </div>
+
+    <!-- 修改密碼 -->
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>修改密碼</label>
+                    <input type="password" class="form-control" v-model="form.NewUserPwd" required>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>確認新密碼</label>
+                    <input type="password" class="form-control" v-model="form.CheckUserPwd" required>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button type="button" class="btn btn-primary" v-on:click="DoEditPwd()">修改密碼</button>
+
+    <!-- 錯誤提示 Modal -->
+    <div class="modal fade" id="ErrorAlert" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">錯誤訊息</h4>
+                </div>
+                <div class="modal-body" id="ErrorMsg" style="overflow-x:auto;width:100%;">
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+</div>
+
+<script>
+    var VuePage = new Vue({
+        el: '#VuePage',
+        data: function () {
+            return {
+                form: {
+                    UserID: '',
+                    UserName: '',
+                    UserEmail: '',
+                    UserPhone: '',
+                    UserAllergens: '',
+                    NewUserPwd: '',
+                    CheckUserPwd: ''
+                }
+            };
+        },
+        mounted: function () {
+            this.GetUserProfile(); // 取得當前用戶資料
+        },
+        methods: {
+            // 取得當前用戶資料
+            GetUserProfile: function () {
+                axios.post('@Url.Content("~/Member/GetUserProfile")', {
+                    inModel: {} // 可以傳遞空對象，或者傳遞必要的資料
+                })
+                .then(response => {
+                    if (response.data.ErrMsg) {
+                        alert(response.data.ErrMsg);
+                    } else {
+                        this.form.UserID = response.data.UserID;
+                        this.form.UserName = response.data.UserName;
+                        this.form.UserEmail = response.data.UserEmail;
+                        this.form.UserPhone = response.data.UserPhone;
+                        this.form.UserAllergens = response.data.UserAllergens;
+                    }
+                })
+                .catch(error => {
+                    $('#ErrorMsg').html(error.responseText);
+                    $('#ErrorAlert').modal('toggle');
+                });
+            },
+            // 修改個人資料
+            DoEditProfile: function () {
+                var postData = {
+                    UserName: this.form.UserName,
+                    UserEmail: this.form.UserEmail,
+                    UserPhone: this.form.UserPhone,
+                    UserAllergens: this.form.UserAllergens
+                };
+
+                axios.post('@Url.Content("~/Member/DoEditProfile")', {
+                    inModel: postData,
+                    __RequestVerificationToken: this.GetToken() // 提交防篡改驗證 token
+                })
+                .then(response => {
+                    if (response.data.ErrMsg) {
+                        alert(response.data.ErrMsg);
+                    } else {
+                        alert(response.data.ResultMsg);
+                    }
+                })
+                .catch(error => {
+                    $('#ErrorMsg').html(error.responseText);
+                    $('#ErrorAlert').modal('toggle');
+                });
+            },
+            // 修改密碼
+            DoEditPwd: function () {
+                var postData = {
+                    NewUserPwd: this.form.NewUserPwd,
+                    CheckUserPwd: this.form.CheckUserPwd
+                };
+
+                axios.post('@Url.Content("~/Member/DoEditPwd")', {
+                    inModel: postData,
+                    __RequestVerificationToken: this.GetToken()
+                })
+                .then(response => {
+                    if (response.data.ErrMsg) {
+                        alert(response.data.ErrMsg);
+                    } else {
+                        alert(response.data.ResultMsg);
+                    }
+                })
+                .catch(error => {
+                    $('#ErrorMsg').html(error.responseText);
+                    $('#ErrorAlert').modal('toggle');
+                });
+            },
+            // 獲取 Token
+            GetToken: function () {
+                var token = '@Html.AntiForgeryToken()';
+                return $(token).val();
+            }
+        }
+    });
+</script>

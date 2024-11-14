@@ -1,0 +1,51 @@
+﻿@model IEnumerable<WebApplication1.Models.MemberModel>
+
+
+
+@if (ViewBag.Members != null && ViewBag.Members.Count > 0)
+{
+    <table>
+        <tr>
+            <th>姓名</th>
+            <th>生日</th>
+            <th>性別</th>
+            <th>電話</th>
+        </tr>
+        @foreach (var member in ViewBag.Members)
+        {
+            <tr>
+                <td>@member.MemberName</td>
+                <td>@member.BirthDay.ToString("yyyy/MM/dd")</td>
+                <td>@member.Gender</td>
+                <td>@member.PhoneNumber</td>
+            </tr>
+        }
+    </table>
+}
+else
+{
+    <p></p>
+}
+
+<h5>@TempData["Msg"]</h5>
+<br/><br /><br /><br />
+<a href="/Home/QueryMembers" class="button">查詢會員基本資料</a>
+
+<style>
+    .button {
+        display: inline-block;
+        padding: 10px 15px;
+        font-size: 16px;
+        color: white;
+        background-color: #007bff; /* 按鈕顏色 */
+        border: none;
+        border-radius: 5px; /* 圓角 */
+        text-decoration: none; /* 去掉底線 */
+        text-align: center;
+    }
+
+        .button:hover {
+            background-color: #0056b3; /* 懸停顏色 */
+        }
+</style>
+

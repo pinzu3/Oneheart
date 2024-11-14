@@ -1,0 +1,60 @@
+﻿
+<div id="VuePage">
+    <!--使用 Bootstrap 設計註冊表單-->
+    <div class="panel panel-primary">
+        <div class="panel-heading">註冊頁面</div>
+        <div class="panel-body">
+            <div class="form-group">
+                <label>帳號</label>
+                <input type="text" name="userID" class="form-control" v-model="form.UserID" placeholder="請輸入帳號" required>
+            </div>
+            <div class="form-group">
+                <label for="userPwd">密碼</label>
+                <input type="password" name="userPwd" class="form-control" v-model="form.UserPwd" placeholder="請輸入密碼" required>
+            </div>
+            <div class="form-group">
+                <label for="userName">姓名</label>    <small class="form-text" style="color: red;">*請提供您的全名。</small>
+                <input type="text" name="userName" class="form-control" v-model="form.UserName" placeholder="請輸入姓名" required>
+
+            </div>
+            <div class="form-group">
+                <label for="userEmail">Email</label>
+                <input type="email" name="userEmail" class="form-control" v-model="form.UserEmail" placeholder="請輸入電子郵件" required>
+
+            </div>
+            <div class="form-group">
+                <label for="userPhone">電話</label>    <small class="form-text" style="color: red;">*作為領藥通知用。</small>
+                <input type="text" name="userPhone" class="form-control" v-model="form.UserPhone" placeholder="請輸入電話" required>
+
+            </div>
+            <div class="form-group">
+                <label for="userAllergens">過敏藥物</label>
+
+                <textarea name="userAllergens" class="form-control" v-model="form.UserAllergens" placeholder="請輸入過敏藥物" rows="4" required></textarea>
+            </div>
+
+        </div>
+        <div class="panel-footer">
+            <!-- 黃色註冊按鈕 -->
+            <button type="button" class="btn btn-warning" v-on:click="DoRegister()">註冊</button>
+            <!-- 藍色登入按鈕 -->
+            @Html.ActionLink("返回登入", "Login", "Home", null, new { @class = "btn btn-primary" })
+
+        </div>
+    </div>
+</div>
+
+<!--使用 Bootstrap Modal 樣式，當執行有錯誤時，顯示錯誤訊息-->
+<div class="modal fade" id="ErrorAlert" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">錯誤訊息</h4>
+            </div>
+            <div class="modal-body" id="ErrorMsg" style="overflow-x:auto;width:100%;">
+
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

@@ -1,0 +1,23 @@
+﻿@model WebApplication1.Models.LoginModel
+
+@{
+    ViewBag.Title = "管理者登入";
+}
+
+<h2>管理者登入</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.LabelFor(m => m.Username)
+    @Html.TextBoxFor(m => m.Username)
+
+    @Html.LabelFor(m => m.Password)
+    @Html.PasswordFor(m => m.Password)
+
+    <button type="submit">登入</button>
+}
+
+@if (TempData["Msg"] != null)
+{
+    <div>@TempData["Msg"]</div>
+}

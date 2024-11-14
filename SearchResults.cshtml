@@ -1,0 +1,31 @@
+﻿
+@model IEnumerable<WebApplication1.Models.MemberModel>
+
+<br /><br /><br /><br />
+@if (ViewBag.Members != null && ViewBag.Members.Count > 0)
+{
+    <table>
+        <tr>
+            <th>姓名</th>
+            <th>生日</th>
+            <th>性別</th>
+            <th>電話</th>
+        </tr>
+        @foreach (var member in ViewBag.Members)
+        {
+            <tr>
+                <td>@member.MemberName</td>
+                <td>@member.BirthDay.ToString("yyyy/MM/dd")</td>
+                <td>@member.Gender</td>
+                <td>@member.PhoneNumber</td>
+            </tr>
+        }
+    </table>
+}
+else
+{
+    <p></p>
+}
+
+<h5>@TempData["Msg"]</h5>
+<a href="/Home/QueryMembers">查詢其他會員資料</a>

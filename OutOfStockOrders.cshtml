@@ -1,0 +1,131 @@
+﻿<h2>藥品管理</h2>
+
+<script>
+    function sortTable() {
+        var rows = $('#X tbody tr').get();
+
+        rows.sort(function (a, b) {
+            var keyA = parseInt($(a).children('td').first().text());
+            var keyB = parseInt($(b).children('td').first().text());
+
+            return keyA - keyB; // 升序排序
+        });
+
+        $.each(rows, function (index, row) {
+            $('#X').children('tbody').append(row); // 將已排序的行附加回表格
+        });
+    }
+
+    function AddItem() {
+        let id = $("#AddId").val();
+        let topic = $("#AddTopic").val();
+        let imageFile = $("#Addjpg")[0].files[0]; // 取得上傳的圖片檔案
+
+        if (!imageFile) {
+            alert("請選擇圖片！");
+            return;
+        }
+
+        let formData = new FormData();
+        formData.append("NewsId", id);
+        formData.append("NewsTopic", topic);
+        formData.append("Newsjpg", imageFile);  // 把圖片檔案放到 formData 中
+
+        $.ajax({
+            type: 'POST',
+            url: '/Home/AddNews',
+            data: formData,
+            processData: false, // 不處理表單數據
+            contentType: false, // 不設置 content-type，讓瀏覽器自動處理
+            success: function (result) {
+                alert(result);
+                ShowData(); // 成功後重新列出資料
+            },
+            error: function () {
+                alert("上傳圖片或資料時發生錯誤");
+            }
+        });
+    }
+
+    function DeleteItem() {
+        let id = $("#DeleteId").val();
+        $.ajax({
+            type: 'GET',
+            dataType: "text",
+            data: { NewsId: id },
+            url: '/Home/DeleteNews',
+            contentType: "application/json;charset=utf - 8",
+            async: true,
+            success: function (result) {
+                alert(result);
+            },
+            error: function () {
+                alert("前端未送出資料");
+            }
+        });
+    }
+
+    function DeleteData() {
+        $("#X").css("display", "none");
+        document.getElementById("X2").style = "display:none";
+        $("#X3").css("display", "block");
+    }
+
+    function AddData() {
+        $("#X").css("display", "none");
+        $("#X2").css("display", "block");
+        $("#X3").css("display", "none");
+    }
+
+    function ShowData() {
+        location.reload();
+    }
+</script>
+
+<button class="btn btn-primary" onclick="ShowData()">列出現有藥品</button>
+<button class="btn btn-warning" onclick="AddData()">新增藥品</button>
+<button class="btn btn-danger" onclick="DeleteData()">刪除藥品</button>
+
+<div id="X3" style="display:none">
+    <span>藥品編號 : </span>
+    <input type="text" id="DeleteId" />
+    <button onclick="DeleteItem()">確定刪除藥品</button>
+</div>
+
+<div id="X2" style="display:none">
+    <br />
+    <span>藥品編號:</span>
+    <input type="text" id="AddId" /><br />
+    <span>藥品名稱:</span>
+    <input type="text" id="AddTopic" /><br />
+    <span>藥品圖片:</span>
+    <input type="file" id="Addjpg" accept="image/*" /><br />
+    <button onclick="AddItem()">確定新增</button>
+</div>
+
+<div id="X">
+    <table>
+        <tr>
+            <th>編號</th>
+            <th>藥品名</th>
+            <th>藥品圖片</th>
+        </tr>
+        @foreach (var X in Model)
+        {
+            <tr>
+                <td>@X.Id</td>
+                <td>@X.Topic</td>
+                <td>
+                    @if (!string.IsNullOrEmpty(X.jpg))  // 確保圖片路徑存在
+                    {
+                        <img src="@Url.Content(X.jpg)" width="50" height="50" />
+                    }
+                    else
+                    {
+                        <span>無圖片</span>
+                    }
+                </td>
+            </tr>
+        }
+    </table>
+</div>

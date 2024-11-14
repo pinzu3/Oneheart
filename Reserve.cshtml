@@ -1,0 +1,93 @@
+﻿@{
+    ViewBag.Title = "預約服務";
+}
+
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <style>
+        body {
+            background-image: url('https://lyrasoft.s3.amazonaws.com/ankecare/images/article/image/a0ba2648acd23dc7a5829968ce531a7d.jpg?7a6df54392f82738f4155c2b');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        form {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+            form input[type="text"], form select, form input[type="submit"], form input[type="file"] {
+                margin-bottom: 10px;
+                width: 100%;
+                padding: 10px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+            }
+
+            form input[type="submit"] {
+                background-color: #007bff;
+                color: white;
+                cursor: pointer;
+                transition: background-color 0.3s ease;
+            }
+
+                form input[type="submit"]:hover {
+                    background-color: #0056b3;
+                }
+
+        h5 {
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <form action="/Home/Reserve" method="post" enctype="multipart/form-data">
+        <label>身分證字號:</label>
+        <input name="D" type="text" required />
+        <br />
+        <label>電話號碼:</label>
+        <input name="C" type="text" required />
+        <br />
+        <label>性別:</label>
+        <select name="B" required>
+            <option value="" disabled selected>請選擇性別</option>
+            <option value="生理男">生理男</option>
+            <option value="生理女">生理女</option>
+        </select>
+        <br />
+        <label>預約日期:</label>
+        <select name="E" required>
+            <option value="" disabled selected>請選擇日期</option>
+            <option value="2024/08/01">2024/08/01</option>
+            <option value="2024/08/02">2024/08/02</option>
+        </select>
+        <br />
+        <label>處方簽圖片:</label>
+
+        <input type="file" name="ImageFile" accept="image/*" />
+
+
+        <br />
+
+        <input type="submit" value="送出" />
+        <a href="/Home/QueryReservations">查詢處方簽預約</a>
+        <a href="/Home/QueryReservations">刪除</a>
+    </form>
+    <br />
+    <h5>@TempData["Msg"]</h5>
+</body>
+</html>

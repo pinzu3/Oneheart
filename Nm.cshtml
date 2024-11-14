@@ -1,0 +1,36 @@
+﻿<h2>最新消息上傳</h2>
+消息編號:
+<input type="text" id="NewId" />
+<button id="A">確定上傳</button>
+
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            // 當按下 "確定上傳" 按鈕時
+            $('#A').click(function () {
+                // 取得輸入框的值
+                let newid = $('#NewId').val();
+
+                // 檢查是否有輸入消息編號
+                
+
+                // 使用 AJAX 傳送資料到後端
+                $.ajax({
+                    type: 'GET',  // 這裡是 GET 請求，根據需要改成 POST
+                    dataType: "text",  // 這裡是文本數據
+                    async: false,  // 默認為 true，可以選擇保留或設置為 false
+                    data: { id: newid },
+                    url: '/New/UploadData',  // 根據你的路由來設置 URL
+                    data: { newId: newid },  // 傳遞 newId 給後端
+                    contentType: "application/json; charset=utf-8",  // 設置請求內容類型為 JSON
+                    success: function (result) {
+                        alert("上傳成功: " + result);  // 成功的處理
+                    },
+                    error: function () {
+                        alert("上傳失敗！");  // 錯誤處理
+                    }
+                });
+            });
+        });
+    </script>
+}

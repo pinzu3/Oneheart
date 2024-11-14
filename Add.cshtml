@@ -1,0 +1,19 @@
+﻿@model IEnumerable<WebApplication1.Models.Add>
+@{ 
+    ViewBag.Title = "Add";
+}
+
+<h2>小小新聞台</h2>
+<table>
+    <tr>
+        <th>編號:</th> <th>姓名</th>
+    </tr>
+    @foreach(var X in Model)
+            {
+                <tr>
+                    <td>@X.Id</td><td>@X.Topic</td>
+                </tr>
+            }
+    </table>
+
+

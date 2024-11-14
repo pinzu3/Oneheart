@@ -1,0 +1,53 @@
+﻿@{
+    ViewBag.Title = "查詢預約";
+}
+
+<h2>查詢處方簽預約</h2>
+
+<form action="/Home/QueryReservations" method="get">
+    電話: <input name="phonenumber" type="text" />
+    <br />
+    身分證字號: <input name="card" type="text" />
+    <br />
+    <input type="submit" value="查詢" />
+</form>
+
+@if (ViewBag.Reservations != null && ViewBag.Reservations.Count > 0)
+{
+    <h4>查詢結果:</h4>
+    <table>
+        <tr>
+            <th>電話</th>
+            <th>號碼</th>
+            <th>預約時間</th>
+            <th>圖片路徑</th>
+        </tr>
+        @foreach (var reservation in ViewBag.Reservations)
+        {
+            <tr>
+                <td>@reservation.Phonenumber</td>
+                <td>@reservation.Card</td>
+                <td>@reservation.Time.ToString("yyyy/MM/dd HH:mm")</td>
+                <td>
+                    @if (!string.IsNullOrEmpty(reservation.ImagePath))
+                    {
+                        string imageUrl = Url.Content(reservation.ImagePath);
+                        <img src="@imageUrl" alt="圖片" style="width:100px; height:auto;" />
+                        <span style="display:block;">路徑: @imageUrl</span> <!-- 輸出圖片 URL -->
+                    }
+                    else
+                    {
+                        <span>無圖片</span>
+                    }
+                </td>
+
+
+            </tr>
+        }
+    </table>
+
+}
+else
+{
+    <p>沒有找到相關預約。</p>
+}

@@ -1,0 +1,80 @@
+﻿@model WebApplication1.Models.LoginModel
+
+<h2>登入</h2>
+
+<form asp-action="Login" method="post">
+    <label for="username">用戶名</label>
+    <input type="text" id="username" name="Username" required />
+
+    <label for="password">密碼</label>
+    <input type="password" id="password" name="Password" required />
+
+    <label for="role">角色</label>
+    <select id="role" name="Role">
+        <option value="User">使用者</option>
+        <option value="Manager">管理者</option>
+    </select>
+
+    <button type="submit">登入</button>
+</form>
+<!--使用 Bootstrap Modal 樣式，當執行有錯誤時，顯示錯誤訊息-->
+<div class="modal fade" id="ErrorAlert" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">錯誤訊息</h4>
+            </div>
+            <div class="modal-body" id="ErrorMsg" style="overflow-x:auto;width:100%;">
+
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+</div>
+@section scripts {
+    <script>
+        var VuePage = new Vue({
+            el: '#VuePage'
+            , data: function () {
+                var data = {
+                    form: {}
+                };
+                return data;
+            }
+            , methods: {
+                // 執行登入按鈕
+                DoLogin: function () {
+                    var self = this;
+
+                    // 組合表單資料
+                    var postData = {};
+                    postData['UserID'] = self.form.UserID;
+                    postData['UserPwd'] = self.form.UserPwd;
+
+                    // 使用 jQuery Ajax 傳送至後端
+                    $.ajax({
+                        url:'@Url.Content("~/Home/DoLogin")',
+                        method:'POST',
+                        dataType:'json',
+                        data: { inModel: postData },
+                        success: function (datas) {
+                            if (datas.ErrMsg) {
+                                alert(datas.ErrMsg);
+                                return;
+                            }
+                            alert(datas.ResultMsg);
+                            window.location = '@Url.Content("~/Home/EditProfile")';
+                        },
+                        error: function (err) {
+                            $('#ErrorMsg').html(err.responseText);
+                            $('#ErrorAlert').modal('toggle');
+                        },
+                    });
+                }
+
+
+            }
+        })
+    </script>
+}

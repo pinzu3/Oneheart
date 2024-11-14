@@ -1,0 +1,24 @@
+﻿<br /><br /><br /><br />
+<table border="1" style="width: 100%; border-collapse: collapse; margin: 20px 0;">
+    <thead style="background-color: #4CAF50; color: white;">
+        <tr>
+            <th style="padding: 10px; text-align: center;">帳號</th>
+            <th style="padding: 10px; text-align: center;">姓名</th>
+            <th style="padding: 10px; text-align: center;">電話</th>
+            <th style="padding: 10px; text-align: center;">電子郵件</th>
+            <th style="padding: 10px; text-align: center;">過敏原</th>
+        </tr>
+    </thead>
+    <tbody style="background-color: #f2f2f2;">
+        @foreach (var member in Model)
+        {
+            <tr>
+                <td style="padding: 10px; text-align: center;">@member["UserID"]</td>
+                <td style="padding: 10px; text-align: center;">@member["UserName"]</td>
+                <td style="padding: 10px; text-align: center;">@member["UserPhone"]</td>
+                <td style="padding: 10px; text-align: center;">@member["UserEmail"]</td>
+                <td style="padding: 10px; text-align: center;">@member["UserAllergens"]</td>
+            </tr>
+        }
+    </tbody>
+</table>

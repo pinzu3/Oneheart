@@ -1,0 +1,54 @@
+﻿@model IEnumerable<WebApplication1.Models.Report>
+
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>圖片列表</title>
+    <style>
+        body {
+            background-color: #f4f4f4;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .image-item {
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            padding: 10px;
+            background-color: #fff;
+            border-radius: 5px;
+        }
+
+            .image-item img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 5px;
+            }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>圖片列表</h1>
+        @foreach (var item in Model)
+        {
+            <div class="image-item">
+                <h2>@item.Reporter - @item.ReporterDept</h2>
+                <p>電話: @item.Phonenumber</p>
+                <p>身分證: @item.Card</p>
+                <p>日期: @item.Time</p>
+                @if (item.ImageData != null && item.ImageData.Length > 0)
+                {
+                    <img src="data:image/jpeg;base64,@Convert.ToBase64String(item.ImageData)" alt="Uploaded Image" />
+                }
+            </div>
+        }
+    </div>
+</body>
+</html>

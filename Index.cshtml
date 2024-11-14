@@ -1,0 +1,108 @@
+﻿<br /><br />
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <style>
+     
+
+        /* 只修改處方籤預約專區的背景 */
+        #reservationSection {
+            background-color: rgba(255, 255, 255, 0.8); /* 設定背景顏色，讓區域有透明的白色背景 */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 80%; /* 可以根據需要調整寬度 */
+            max-width: 600px; /* 最大寬度，保持一致的佈局 */
+        }
+
+        form {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+            form input[type="text"], form select, form input[type="submit"], form input[type="file"] {
+                margin-bottom: 10px;
+                width: 100%;
+                padding: 10px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+            }
+
+            form input[type="submit"] {
+                background-color: #007bff;
+                color: white;
+                cursor: pointer;
+                transition: background-color 0.3s ease;
+            }
+
+                form input[type="submit"]:hover {
+                    background-color: #0056b3;
+                }
+
+        h5 {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        /* 登入頁面的標題加粗並放大 */
+        .panel-heading {
+            font-weight: bold; /* 設置粗體字 */
+            font-size: 30px; /* 設定字體大小，您可以根據需要調整數字 */
+        }
+    </style>
+</head>
+
+
+@{
+    ViewBag.Title = "首頁";
+}
+
+<h5>@TempData["Msg"]</h5>
+
+<!-- 使用 Bootstrap 設計登入表單 -->
+
+<div class="panel panel-primary">
+    <div class="panel-heading">登入頁面</div>
+    <div class="panel-body">
+        <form action="/Home/DoLogin" method="Post">
+            <div class="form-group">
+                <label>帳號</label>
+                <input type="text" name="userId" class="form-control"> <!-- 修正為 userId -->
+            </div>
+            <div class="form-group">
+                <label>密碼</label>
+                <input type="password" name="pwd" class="form-control">
+            </div>
+            <br />
+            <button type="submit" class="btn btn-primary">登入</button>
+            <br /><br />
+        </form> <!-- 確保 </form> 在這裡 -->
+
+       
+    </div>
+    <div class="panel-footer">
+       
+        @Html.ActionLink("註冊", "Register", "Home", null, new { @class = "btn btn-warning" })
+    </div>
+</div>
+
+<!-- 使用 Bootstrap Modal 樣式，當執行有錯誤時，顯示錯誤訊息 -->
+<div class="modal fade" id="ErrorAlert" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">錯誤訊息</h4>
+            </div>
+            <div class="modal-body" id="ErrorMsg" style="overflow-x:auto;width:100%;">
+                <!-- 錯誤訊息內容 -->
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+</html>

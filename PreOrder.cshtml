@@ -1,0 +1,125 @@
+﻿<br /><br />
+<h2 onclick="showReservationForm()" style="cursor:pointer; font-weight: bold;">處方籤預約專區</h2>
+
+<body>
+    <!-- 預約表單區域，初始隱藏 -->
+    <div id="reservationSection" >
+      
+        <div id="reservationFormSection">
+            <form action="/Home/Reserve" method="post" enctype="multipart/form-data">
+                <label>身分證字號:</label>
+                <input name="D" type="text" required />
+                <br />
+                <label>電話號碼:</label>
+                <input name="C" type="text" required />
+                <br />
+
+                <label>預約日期:</label>
+                <select name="E" required>
+                    <option value="" disabled selected>請選擇日期</option>
+                    <option value="2024/12/01 12:00-14;00">2024/12/01 12:00-14:00</option>
+                    <option value="2024/12/01 16:00-18:00">2024/12/01 16:00-18:00</option>
+                    <option value="2024/12/02 12:00-14;00">2024/12/02 12:00-14:00</option>
+                    <option value="2024/12/02 16:00-18:00">2024/12/02 16:00-18:00</option>
+                    <option value="2024/12/03 12:00-14;00">2024/12/03 12:00-14:00</option>
+                    <option value="2024/12/03 16:00-18:00">2024/12/03 16:00-18:00</option>
+                </select>
+                <br />
+                <label>性別:</label>
+                <select name="B" required>
+                    <option value="" disabled selected>請選擇性別/換藥狀況</option>
+                    <option value="生理男,沒有缺藥">生理男,沒有缺藥 </option>
+                    <option value="生理女,沒有缺藥">生理女,沒有缺藥 </option>
+                    <option value="生理男,接受換藥">生理男,接受換藥 </option>
+                    <option value="生理男,不接受換藥">生理男,不接受換藥 </option>
+                    <option value="生理女,接受換藥">生理女,接受換藥</option>
+                    <option value="生理女,不接受換藥">生理女,不接受換藥</option>
+                </select>
+
+                <br />
+                <label>處方簽圖片:</label>
+                <input type="file" name="ImageFile" accept="image/*" />
+                <br />
+                <input type="submit" value="送出" />
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // 顯示或隱藏預約表單
+        function showReservationForm() {
+            // 顯示條款部分
+            document.getElementById('reservationSection').style.display = 'block';
+        }
+
+        // 用來處理 "同意" 和 "不同意" 之間的切換
+        function toggleAgreement() {
+            // 確保兩者不能同時勾選
+            var agreeCheckbox = document.getElementById('agreeTerms');
+            var disagreeCheckbox = document.getElementById('disagreeTerms');
+
+            if (agreeCheckbox.checked) {
+                // 如果 "同意" 被勾選，取消 "不同意" 的選中狀態
+                disagreeCheckbox.checked = false;
+            } else if (disagreeCheckbox.checked) {
+                // 如果 "不同意" 被勾選，取消 "同意" 的選中狀態
+                agreeCheckbox.checked = false;
+                // 顯示提示視窗，告訴用戶領藥時間會比預期延遲幾天
+                alert("提醒：由於您不同意條款，您的領藥時間可能會比預期延遲幾天,請等候藥局來電!。");
+            }
+
+            // 顯示或隱藏預約表單
+            if (agreeCheckbox.checked || disagreeCheckbox.checked) {
+                // 顯示預約表單
+                document.getElementById('reservationFormSection').style.display = 'block';
+            } else {
+                // 隱藏預約表單
+                document.getElementById('reservationFormSection').style.display = 'none';
+            }
+        }
+    </script>
+
+    <style>
+        /* 設定處方籤預約專區的背景 */
+        #reservationSection {
+            background-image: url('https://example.com/your-background-image.jpg'); /* 使用您希望顯示的背景圖片 */
+            background-size: cover;
+            background-position: center;
+            padding: 20px;
+            border-radius: 10px;
+            width: 80%; /* 調整寬度以適應頁面 */
+            max-width: 800px; /* 設定最大寬度 */
+            margin: 20px auto; /* 讓區域居中顯示 */
+        }
+
+        /* 使表單部分與背景相容 */
+        #reservationFormSection {
+            background-color: rgba(255, 255, 255, 0.8); /* 設定表單區域為透明白色背景 */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        form input[type="text"],
+        form select,
+        form input[type="submit"],
+        form input[type="file"] {
+            margin-bottom: 10px;
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        form input[type="submit"] {
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+            form input[type="submit"]:hover {
+                background-color: #0056b3;
+            }
+    </style>
+</body>

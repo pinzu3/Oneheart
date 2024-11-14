@@ -1,0 +1,40 @@
+﻿<br/><br /><br /><br />
+<!-- 在這裡顯示資料傳送成功的通知 -->
+<h5>@TempData["Msg"]</h5>
+
+<hr />
+
+<h2>查詢會員資料</h2>
+<form action="/Home/SearchMembers" method="get">
+    姓名: <input name="membername" type="text" />
+    <br />
+    電話: <input name="phoneNumber" type="text" />
+    <br />
+    <input type="submit" value="查詢" />
+</form>
+
+@if (ViewBag.Members != null && ViewBag.Members.Count > 0)
+{
+    <h4>查詢結果:</h4>
+    <table>
+        <tr>
+            <th>姓名</th>
+            <th>生日</th>
+            <th>性別</th>
+            <th>電話</th>
+        </tr>
+        @foreach (var member in ViewBag.Members)
+        {
+            <tr>
+                <td>@member.MemberName</td>
+                <td>@member.BirthDay.ToString("yyyy/MM/dd")</td>
+                <td>@member.Gender</td>
+                <td>@member.PhoneNumber</td>
+            </tr>
+        }
+    </table>
+}
+else if (ViewBag.Members != null)
+{
+    <p>沒有找到任何資料。</p>
+}
